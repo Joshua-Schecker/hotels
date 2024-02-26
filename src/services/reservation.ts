@@ -2,7 +2,7 @@ import { ErrorResponse } from "../middleware/errorHandler";
 import { pb } from "../pocketbase";
 import { ReservationInput } from "../schemas";
 
-export async function bookReservationForRoom(
+export async function bookRoomByNumber(
 	reservation: ReservationInput & { roomId: string },
 ) {
 	const existingReservations = await pb
@@ -20,7 +20,9 @@ export async function bookReservationForRoom(
 	return pb.collection("reservations").create(reservation);
 }
 
-export async function bookReservation(reservation: ReservationInput) {
+export async function bookRoomByType(
+	reservation: ReservationInput & { hotelId: string },
+) {
 	const availableRooms = [];
 
 	/* 
@@ -28,7 +30,7 @@ SELECT rooms.*
 FROM rooms
 LEFT JOIN reservations ON rooms.id = reservations.room_id 
     AND NOT (reservations.start >= :endAt OR reservations.end <= :startAt)
-WHERE rooms.type = :roomType
+WHERE rooms.type = :roomType and rooms.hotel_id = :hotelId
     AND (reservations.id IS NULL OR reservations.active = false)
 GROUP BY rooms.id
 HAVING COUNT(reservations.id) = 0; 

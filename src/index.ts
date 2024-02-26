@@ -8,7 +8,7 @@ import { reservationSchema } from "./schemas";
 import asyncHandler from "express-async-handler";
 
 import { pb } from "./pocketbase";
-import { bookReservation } from "./services/reservation";
+import { bookRoomByNumber, bookRoomByType } from "./services/reservation";
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.post(
 			throw new ErrorResponse("Unathourized", 403);
 		}
 		const guestId = req.body.guestId ?? user.id;
-		const result = bookReservation({
+		const result = bookRoomByNumber({
 			...req.body,
 			roomId: req.params.roomId,
 			guestId,
@@ -43,9 +43,9 @@ app.post(
 			throw new ErrorResponse("Unathourized", 403);
 		}
 		const guestId = req.body.guestId ?? user.id;
-		const result = bookReservation({
+		const result = bookRoomByType({
 			...req.body,
-			roomId: req.params.roomId,
+			hotelId: req.params.hotelId,
 			guestId,
 		});
 		res.send(result);
