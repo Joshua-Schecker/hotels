@@ -1,4 +1,5 @@
 # hotel booking service
+Tiden går fort. Med tanke på 4 timer begrensing, klarte jeg ikke lage en fungerende løsning. Istendenfor satset jeg på utvikling av arkitektur og API design. Nedenfor finner du en beskrivelser av databasen og hovrdan API hadde sett ut.
 
 ## Data model
 https://dbdiagram.io/d/hotels-65dca63e5cd0412774d65d78
@@ -65,13 +66,13 @@ Performance and scalability would not be primary concerns given relatively modes
   - It's important to ensure that the data is always consistent and accurate. This can be achieved by using transactions and ensuring that the data is always validated before it is committed to the database.
 
 - Integrations
-  - To support integratiosn with other sytems, the system should support API token authentication and have a separate, well-documented API for integrations.
+  - To support integratiosn with other sytems, the system should support API token authentication and have a separate, well-documented API for integrations. Oauth2 could be used to allow third party applications to access the system.
 
 ### Loyalty program
 A loyalty program could be a complex solution. It may be best to outsouce this to a third party provider. If we were to implement it ourselves, we would need to consider how to track and manage the points, how to apply the points to the reservations, and how to manage the rewards. 
 
 A simple solution be:
-Tables for tracking user points, setting rewards, and defining how points are converted to reward and how payments are are converted to points. 
+Tables for tracking user points, a table for tracking point transactions and defining how points are converted to reward and how payments are are converted to points. 
 
 It would be important to ensure that the system is not exploitabl by users trying to game the system. For exmaple, esuring users do not earn points for cancelled reservations.
 
